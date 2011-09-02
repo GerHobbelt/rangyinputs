@@ -24,7 +24,9 @@
             ta_end = gEBI("ta_end");
 
             rangyInputs.init();
-            rangyInputs.enableTabIndentation(ta);
+            rangyInputs.enableTabIndentation(ta, "  ");
+            rangyInputs.setSelection(ta, 5, 6)
+            ta.focus();
 
         };
     </script>
@@ -69,13 +71,8 @@
     End: <input type="text" id="ta_end" size="3" value="7">
 
     <br><br>
-        <textarea rows="15" cols="80" id="ta">Some test text
-That has
-
-Some line breaks, including some trailing ones
-
-
-</textarea>
+        <textarea rows="15" cols="80" id="ta">One
+  Two</textarea>
 </p>
 <!--build:analytics-->
 </body>

@@ -90,8 +90,8 @@
                     outdentedLines[i] = lines[i].slice(lineCharsToRemoveCount) + newLine;
                 }
                 var outdented = outdentedLines.join("");
-                var newSelStart = info.valToMutateStart == sel.start ? sel.start : sel.start - firstLineCharsRemovedCount;
-                var newSelEnd = sel.end - charsRemovedCount;
+                var newSelStart = Math.max(info.valToMutateStart == sel.start ? sel.start : sel.start - firstLineCharsRemovedCount, info.valToMutateStart);
+                var newSelEnd = Math.max(sel.end - charsRemovedCount, info.valToMutateStart);
 
                 el.value = info.valBefore + outdented + info.valAfter;
                 $.fn.rangyInputs.setSelection(el, newSelStart, newSelEnd);

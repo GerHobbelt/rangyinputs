@@ -88,6 +88,7 @@
 
         function enableTabIndentation(el, indentation) {
             el.onkeydown = function(e) {
+                e = e || window.event;
                 if (e.keyCode == 9) {
                     var sel = api.getSelection(el);
                     if (e.shiftKey) {
@@ -103,6 +104,7 @@
 
             // For Opera, which only allows suppression of keypress events, not keydown
             el.onkeypress = function(e) {
+                e = e || window.event;
                 if (e.which == 9) {
                     return false;
                 }

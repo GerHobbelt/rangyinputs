@@ -199,6 +199,9 @@
         };
 
         surroundSelectedText = function(el, before, after) {
+            if (typeof after == UNDEF) {
+                after = before;
+            }
             var sel = getSelection(el), val = el.value;
             el.value = val.slice(0, sel.start) + before + sel.text + after + val.slice(sel.end);
             var startIndex = sel.start + before.length;
