@@ -9,7 +9,7 @@ jQuery rangyinputs: a clone of https://code.google.com/p/rangyinputs/
 Introduction
 ------------
 
-Rangyinputs is small, cross-browser script for manipulating selections within text inputs and textareas. It is currently available only as a jQuery plug-in.
+Rangyinputs is a small, cross-browser script for manipulating selections within text inputs and textareas. It is currently available only as a jQuery plug-in.
 
 For manipulating selections and ranges within regular HTML, see Rangyinputs' larger twin project, [Rangy](../Rangy/).
 
