@@ -20,7 +20,7 @@ Examples
 Imagine a simple textarea such as:
 
 ```
-&lt;textarea id="test">Foo bar&lt;/textarea>
+<textarea id="test">Foo bar&lt;/textarea>
 ```
 
 You can get the user's selection using
@@ -172,5 +172,5 @@ Returns a reference to the original jQuery object for the element.
 To surround the selection with HTML &lt;b> tags:
 
 ```
-$("#test").surroundSelectedText("&lt;b>", "&lt;/b>");
+$("#test").surroundSelectedText("<b>", "</b>");
 ```
