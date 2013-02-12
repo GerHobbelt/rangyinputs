@@ -6,10 +6,10 @@
  *
  * This file is standalone.
  *
- * Copyright %%build:year%%, Tim Down
+ * Copyright 2013, Tim Down
  * Licensed under the MIT license.
- * Version: %%build:version%%
- * Build date: %%build:date%%
+ * Version: 1.0
+ * Build date: 29 January 2013
  */
 var rangyInputs;
 

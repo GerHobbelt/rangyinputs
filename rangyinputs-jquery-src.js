@@ -1,13 +1,17 @@
 /**
  * @license Rangy Inputs, a jQuery plug-in for selection and caret manipulation within textareas and text inputs.
- * 
+ *
  * https://github.com/timdown/rangyinputs
  *
  * For range and selection features for contenteditable, see Rangy.
-
+ *
  * http://code.google.com/p/rangy/
+ * http://code.google.com/p/rangyinputs/
  *
  * Depends on jQuery 1.0 or later.
+ *
+ * Related project: Rangy, a cross-browser JavaScript range and selection library
+ * http://code.google.com/p/rangyinputs/
  *
  * Copyright 2013, Tim Down
  * Licensed under the MIT license.
@@ -201,6 +205,9 @@
         };
 
         surroundSelectedText = function(el, before, after) {
+            if (typeof after == UNDEF) {
+                after = before;
+            }
             var sel = getSelection(el), val = el.value;
 
             el.value = val.slice(0, sel.start) + before + sel.text + after + val.slice(sel.end);
@@ -238,5 +245,17 @@
             replaceSelectedText: jQuerify(replaceSelectedText, true),
             surroundSelectedText: jQuerify(surroundSelectedText, true)
         });
+
+        $.fn.rangyInputs = {
+            getSelection: getSelection,
+            setSelection: setSelection,
+            collapseSelection: collapseSelection,
+            deleteSelectedText: deleteSelectedText,
+            deleteText: deleteText,
+            extractSelectedText: extractSelectedText,
+            insertText: insertText,
+            replaceSelectedText: replaceSelectedText,
+            surroundSelectedText: surroundSelectedText
+        };
     });
 })(jQuery);
