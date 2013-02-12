@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Rangyinputs jQuery plugin demo</title>
+    <link href="demo.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../jquery_plugin.js"></script>
+    <style type="text/css">
+        p.inputcontainer {
+            background-color: lightgoldenrodyellow;
+            border: solid 1px darkblue;
+            padding: 0.3125em;
+        }
+    </style>
+</head>
+<body>
+<h1>Rangy Text Inputs jQuery Demo</h1>
+
+<br><br>
+
+<p class="inputcontainer">
+    <input type="button" class="unselectable" value="get selection range"
+           onmousedown="var sel = $('#ta').getSelection(); alert(sel.start + ',' + sel.end);">
+
+    <input type="button" class="unselectable" value="paste test text"
+           onmousedown="$('#ta').replaceSelectedText('**Test**')">
+
+    <input type="button" class="unselectable" value="extract selected text"
+           onmousedown="alert($('#ta').extractSelectedText())">
+
+    <input type="button" class="unselectable" value="surround selected text"
+           onmousedown="$('#ta').surroundSelectedText('[Before]', '[After]', true); $('#ta').focus()">
+
+    <input type="button" class="unselectable" value="replace selected text"
+           onmousedown="$('#ta').replaceSelectedText('[Replacement text]'); $('#ta').focus()">
+
+    <input type="button" class="unselectable" value="collapse to start"
+           onmousedown="$('#ta').collapseSelection(true); $('#ta').focus()">
+
+    <input type="button" class="unselectable" value="collapse to end"
+           onmousedown="$('#ta').collapseSelection(false); $('#ta').focus()">
+
+    <input type="button" class="unselectable" value="set selection"
+           onmousedown="$('#ta').setSelection(+$('#ta_start')[0].value, +$('#ta_end')[0].value); $('#ta').focus()">
+
+    Start: <input type="text" id="ta_start" size="3" value="5">
+    End: <input type="text" id="ta_end" size="3" value="7">
+
+    <br><br>
+    <textarea rows="15" cols="80" id="ta">Some test text
+That has
+
+Some line breaks, including some trailing ones
+
+
+</textarea>
+</p>
+</body>
+</html>
