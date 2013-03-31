@@ -257,17 +257,5 @@
             replaceSelectedText: jQuerify(replaceSelectedText, true),
             surroundSelectedText: jQuerify(surroundSelectedText, true)
         });
-
-        $.fn.rangyInputs = {
-            getSelection: getSelection,
-            setSelection: setSelection,
-            collapseSelection: collapseSelection,
-            deleteSelectedText: deleteSelectedText,
-            deleteText: deleteText,
-            extractSelectedText: extractSelectedText,
-            insertText: insertText,
-            replaceSelectedText: replaceSelectedText,
-            surroundSelectedText: surroundSelectedText
-        };
     });
 })(jQuery);
