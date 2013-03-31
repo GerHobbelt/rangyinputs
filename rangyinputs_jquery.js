@@ -1,16 +1,18 @@
 /**
- * @license Rangy Text Inputs, a cross-browser textarea and text input library plug-in for jQuery.
- * http://code.google.com/p/rangyinputs/
+ * @license Rangy Inputs, a jQuery plug-in for selection and caret manipulation within textareas and text inputs.
+ *
+ * https://github.com/timdown/rangyinputs
+ *
+ * For range and selection features for contenteditable, see Rangy.
+
+ * http://code.google.com/p/rangy/
  *
  * Depends on jQuery 1.0 or later.
  *
- * Related project: Rangy, a cross-browser JavaScript range and selection library
- * http://code.google.com/p/rangyinputs/
- *
- * Copyright %%build:year%%, Tim Down
+ * Copyright 2013, Tim Down
  * Licensed under the MIT license.
- * Version: %%build:version%%
- * Build date: %%build:date%%
+ * Version: 1.1
+ * Build date: 31 March 2013
  */
 (function($) {
     var UNDEF = "undefined";
@@ -182,31 +184,48 @@
             return sel.text;
         };
 
-        insertText = function(el, text, index, moveSelection) {
-            var val = el.value, caretIndex;
-            el.value = val.slice(0, index) + text + val.slice(index);
-            if (moveSelection) {
-                caretIndex = index + text.length;
-                setSelection(el, caretIndex, caretIndex);
+        var updateSelectionAfterInsert = function(el, startIndex, text, selectionBehaviour) {
+            var endIndex = startIndex + text.length;
+            
+            selectionBehaviour = (typeof selectionBehaviour == "string") ?
+                selectionBehaviour.toLowerCase() : "";
+
+            switch (selectionBehaviour) {
+                case "collapsetostart":
+                    setSelection(el, startIndex, startIndex);
+                    break;
+                case "collapsetoend":
+                    setSelection(el, endIndex, endIndex);
+                    break;
+                case "select":
+                    setSelection(el, startIndex, endIndex);
+                    break;
             }
         };
 
-        replaceSelectedText = function(el, text) {
-            var sel = getSelection(el), val = el.value;
-            el.value = val.slice(0, sel.start) + text + val.slice(sel.end);
-            var caretIndex = sel.start + text.length;
-            setSelection(el, caretIndex, caretIndex);
+        insertText = function(el, text, index, selectionBehaviour) {
+            var val = el.value;
+            el.value = val.slice(0, index) + text + val.slice(index);
+            if (typeof selectionBehaviour == "boolean") {
+                selectionBehaviour = selectionBehaviour ? "collapseToEnd" : "";
+            }
+            updateSelectionAfterInsert(el, index, text, selectionBehaviour);
         };
 
-        surroundSelectedText = function(el, before, after) {
+        replaceSelectedText = function(el, text, selectionBehaviour) {
+            var sel = getSelection(el), val = el.value;
+            el.value = val.slice(0, sel.start) + text + val.slice(sel.end);
+            updateSelectionAfterInsert(el, sel.start, text, selectionBehaviour || "collapseToEnd");
+        };
+
+        surroundSelectedText = function(el, before, after, selectionBehaviour) {
             if (typeof after == UNDEF) {
                 after = before;
             }
             var sel = getSelection(el), val = el.value;
             el.value = val.slice(0, sel.start) + before + sel.text + after + val.slice(sel.end);
             var startIndex = sel.start + before.length;
-            var endIndex = startIndex + sel.length;
-            setSelection(el, startIndex, endIndex);
+            updateSelectionAfterInsert(el, startIndex, sel.text, selectionBehaviour || "select");
         };
 
         function jQuerify(func, returnThis) {

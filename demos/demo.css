@@ -62,8 +62,8 @@ pre {
 }
 
 .unselectable {
-    user-select: none; /* CSS3 */
     -moz-user-select: none;
     -moz-user-focus: ignore;
     -khtml-user-select: none;
+    user-select: none; /* CSS3 */
 }
