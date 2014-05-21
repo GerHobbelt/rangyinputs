@@ -1,5 +1,11 @@
 /**
- * @license Rangy Text Inputs, a cross-browser textarea and text input library plug-in for jQuery.
+ * @license Rangy Inputs, a jQuery plug-in for selection and caret manipulation within textareas and text inputs.
+ *
+ * https://github.com/timdown/rangyinputs
+ *
+ * For range and selection features for contenteditable, see Rangy.
+ *
+ * http://code.google.com/p/rangy/
  * http://code.google.com/p/rangyinputs/
  *
  * Depends on jQuery 1.0 or later.
@@ -136,9 +142,5 @@
             }
             return this;
         }
-
-
-
     });
-
 })(jQuery);

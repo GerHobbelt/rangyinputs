@@ -1,3 +1,23 @@
+/**
+ * @license Rangy Inputs, a cross-browser JavaScript library for selection and caret manipulation within textareas and text inputs.
+ *
+ * https://github.com/timdown/rangyinputs
+ *
+ * Part of Rangy, a cross-browser JavaScript range and selection library
+ *
+ * http://code.google.com/p/rangy/
+ * http://code.google.com/p/rangyinputs/
+ *
+ * This file is standalone.
+ *
+ * Related project: Rangy, a cross-browser JavaScript range and selection library
+ * http://code.google.com/p/rangyinputs/
+ *
+ * Copyright %%build:year%%, Tim Down
+ * Licensed under the MIT license.
+ * Version: %%build:version%%
+ * Build date: %%build:date%%
+ */
 (function() {
     if (!window.rangyInputs) {
         if (window.console && window.console.log) {
@@ -78,8 +98,8 @@
                     outdentedLines[i] = lines[i].slice(lineCharsToRemoveCount) + newLine;
                 }
                 var outdented = outdentedLines.join("");
-                var newSelStart = info.valToMutateStart == sel.start ? sel.start : sel.start - firstLineCharsRemovedCount;
-                var newSelEnd = sel.end - charsRemovedCount;
+                var newSelStart = Math.max(info.valToMutateStart == sel.start ? sel.start : sel.start - firstLineCharsRemovedCount, info.valToMutateStart);
+                var newSelEnd = Math.max(sel.end - charsRemovedCount, info.valToMutateStart);
 
                 el.value = info.valBefore + outdented + info.valAfter;
                 api.setSelection(el, newSelStart, newSelEnd);

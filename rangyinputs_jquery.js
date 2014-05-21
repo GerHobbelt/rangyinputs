@@ -13,10 +13,10 @@
  * Related project: Rangy, a cross-browser JavaScript range and selection library
  * http://code.google.com/p/rangyinputs/
  *
- * Copyright 2013, Tim Down
+ * Copyright %%build:year%%, Tim Down
  * Licensed under the MIT license.
- * Version: 1.1.2
- * Build date: 31 March 2013
+ * Version: %%build:version%%
+ * Build date: %%build:date%%
  */
 (function($) {
     var UNDEF = "undefined";
@@ -190,7 +190,7 @@
 
         var updateSelectionAfterInsert = function(el, startIndex, text, selectionBehaviour) {
             var endIndex = startIndex + text.length;
-            
+
             selectionBehaviour = (typeof selectionBehaviour == "string") ?
                 selectionBehaviour.toLowerCase() : "";
 
@@ -200,7 +200,7 @@
                 var normalizedText = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
                 endIndex = startIndex + normalizedText.length;
                 var firstLineBreakIndex = startIndex + normalizedText.indexOf("\n");
-                
+
                 if (el.value.slice(firstLineBreakIndex, firstLineBreakIndex + 2) == "\r\n") {
                     // Browser uses \r\n, so we need to account for extra \r characters
                     endIndex += normalizedText.match(/\n/g).length;

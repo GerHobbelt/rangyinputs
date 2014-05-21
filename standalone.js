@@ -1,15 +1,22 @@
 /**
- * @license Rangy Text Inputs, a cross-browser textarea and text input library
-
+ * @license Rangy Inputs, a cross-browser JavaScript library for selection and caret manipulation within textareas and text inputs.
+ *
+ * https://github.com/timdown/rangyinputs
+ *
  * Part of Rangy, a cross-browser JavaScript range and selection library
+ *
  * http://code.google.com/p/rangy/
+ * http://code.google.com/p/rangyinputs/
  *
  * This file is standalone.
  *
- * Copyright 2013, Tim Down
+ * Related project: Rangy, a cross-browser JavaScript range and selection library
+ * http://code.google.com/p/rangyinputs/
+ *
+ * Copyright %%build:year%%, Tim Down
  * Licensed under the MIT license.
- * Version: 1.0
- * Build date: 29 January 2013
+ * Version: %%build:version%%
+ * Build date: %%build:date%%
  */
 var rangyInputs;
 
@@ -23,15 +30,15 @@ var rangyInputs;
     // http://peter.michaux.ca/articles/feature-detection-state-of-the-art-browser-scripting
     function isHostMethod(object, property) {
         var t = typeof object[property];
-        return t === "function" || (!!(t == "object" && object[property])) || t == "unknown";
+        return t === "function" || (!!(t === "object" && object[property])) || t === "unknown";
     }
 
     function isHostProperty(object, property) {
-        return typeof(object[property]) != UNDEF;
+        return typeof(object[property]) !== UNDEF;
     }
 
     function isHostObject(object, property) {
-        return !!(typeof(object[property]) == "object" && object[property]);
+        return !!(typeof(object[property]) === "object" && object[property]);
     }
 
     function fail(reason) {
@@ -187,29 +194,63 @@ var rangyInputs;
             return sel.text;
         };
 
-        insertText = function(el, text, index, moveSelection) {
-            var val = el.value, caretIndex;
-            el.value = val.slice(0, index) + text + val.slice(index);
-            if (moveSelection) {
-                caretIndex = index + text.length;
-                setSelection(el, caretIndex, caretIndex);
+        var updateSelectionAfterInsert = function(el, startIndex, text, selectionBehaviour) {
+            var endIndex = startIndex + text.length;
+
+            selectionBehaviour = (typeof selectionBehaviour == "string") ?
+                selectionBehaviour.toLowerCase() : "";
+
+            if ((selectionBehaviour == "collapsetoend" || selectionBehaviour == "select") && /[\r\n]/.test(text)) {
+                // Find the length of the actual text inserted, which could vary
+                // depending on how the browser deals with line breaks
+                var normalizedText = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+                endIndex = startIndex + normalizedText.length;
+                var firstLineBreakIndex = startIndex + normalizedText.indexOf("\n");
+
+                if (el.value.slice(firstLineBreakIndex, firstLineBreakIndex + 2) == "\r\n") {
+                    // Browser uses \r\n, so we need to account for extra \r characters
+                    endIndex += normalizedText.match(/\n/g).length;
+                }
+            }
+
+            switch (selectionBehaviour) {
+                case "collapsetostart":
+                    setSelection(el, startIndex, startIndex);
+                    break;
+                case "collapsetoend":
+                    setSelection(el, endIndex, endIndex);
+                    break;
+                case "select":
+                    setSelection(el, startIndex, endIndex);
+                    break;
             }
         };
 
-        replaceSelectedText = function(el, text) {
-            var sel = getSelection(el), val = el.value;
-            el.value = val.slice(0, sel.start) + text + val.slice(sel.end);
-            var caretIndex = sel.start + text.length;
-            setSelection(el, caretIndex, caretIndex);
+        insertText = function(el, text, index, selectionBehaviour) {
+            var val = el.value;
+            el.value = val.slice(0, index) + text + val.slice(index);
+            if (typeof selectionBehaviour == "boolean") {
+                selectionBehaviour = selectionBehaviour ? "collapseToEnd" : "";
+            }
+            updateSelectionAfterInsert(el, index, text, selectionBehaviour);
         };
 
-        surroundSelectedText = function(el, before, after) {
+        replaceSelectedText = function(el, text, selectionBehaviour) {
+            var sel = getSelection(el), val = el.value;
+            el.value = val.slice(0, sel.start) + text + val.slice(sel.end);
+            updateSelectionAfterInsert(el, sel.start, text, selectionBehaviour || "collapseToEnd");
+        };
+
+        surroundSelectedText = function(el, before, after, selectionBehaviour) {
+            if (typeof after == UNDEF) {
+                after = before;
+            }
             var sel = getSelection(el), val = el.value;
             el.value = val.slice(0, sel.start) + before + sel.text + after + val.slice(sel.end);
             var startIndex = sel.start + before.length;
-            var endIndex = startIndex + sel.length;
-            setSelection(el, startIndex, endIndex);
+            updateSelectionAfterInsert(el, startIndex, sel.text, selectionBehaviour || "select");
         };
+
 
         rangyInputs = {
             init: init,
