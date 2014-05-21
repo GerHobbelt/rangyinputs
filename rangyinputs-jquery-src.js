@@ -15,7 +15,7 @@
  *
  * Copyright 2013, Tim Down
  * Licensed under the MIT license.
- * Version: 1.1
+ * Version: 1.1.2
  * Build date: 31 March 2013
  */
 (function($) {
@@ -95,7 +95,7 @@
                 }
             };
         } else if (isHostMethod(testTextArea, "createTextRange") && isHostObject(document, "selection") &&
-            isHostMethod(document.selection, "createRange")) {
+                   isHostMethod(document.selection, "createRange")) {
 
             getSelection = function(el) {
                 var start = 0, end = 0, normalizedValue, textInputRange, len, endRange;
@@ -190,9 +190,22 @@
 
         var updateSelectionAfterInsert = function(el, startIndex, text, selectionBehaviour) {
             var endIndex = startIndex + text.length;
-
+            
             selectionBehaviour = (typeof selectionBehaviour == "string") ?
                 selectionBehaviour.toLowerCase() : "";
+
+            if ((selectionBehaviour == "collapsetoend" || selectionBehaviour == "select") && /[\r\n]/.test(text)) {
+                // Find the length of the actual text inserted, which could vary
+                // depending on how the browser deals with line breaks
+                var normalizedText = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+                endIndex = startIndex + normalizedText.length;
+                var firstLineBreakIndex = startIndex + normalizedText.indexOf("\n");
+                
+                if (el.value.slice(firstLineBreakIndex, firstLineBreakIndex + 2) == "\r\n") {
+                    // Browser uses \r\n, so we need to account for extra \r characters
+                    endIndex += normalizedText.match(/\n/g).length;
+                }
+            }
 
             switch (selectionBehaviour) {
                 case "collapsetostart":
