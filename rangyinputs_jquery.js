@@ -250,7 +250,8 @@
                 var el = this.jquery ? this[0] : this;
                 var nodeName = el.nodeName.toLowerCase();
 
-                if (el.nodeType == 1 && (nodeName == "textarea" || (nodeName == "input" && el.type == "text"))) {
+                if (el.nodeType == 1 && (nodeName == "textarea" ||
+                        (nodeName == "input" && /^(?:text|email|number|search|tel|url|password)$/i.test(el.type)))) {
                     var args = [el].concat(Array.prototype.slice.call(arguments));
                     var result = func.apply(this, args);
                     if (!returnThis) {
