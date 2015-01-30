@@ -14,6 +14,12 @@ Rangyinputs is a small, cross-browser script for manipulating selections and the
 For manipulating selections and ranges within regular HTML, see Rangyinputs' larger twin project, [Rangy](../Rangy/).
 
 
+Bower Install
+-------------
+
+[Bower](http://bower.io/) users can install by running `bower install rangyinputs --save`
+
+
 Example
 -------
 
@@ -41,8 +47,7 @@ Rangy Inputs provides the following extensions to all jQuery objects wrapping a 
 Note that in IE, the element must have the focus for any of the following methods to work, which can be achieved by calling its focus() method before calling the method.
 
 
-`getSelection()`
-----------------
+## `getSelection()`
 
 Returns an object representing the user selection within the text input or textarea element.
 
@@ -61,8 +66,7 @@ Note that in IE the textarea or text input must have the focus before calling th
     var sel = $("#test").getSelection();
     alert(sel.start + ", " + sel.end);
 
-`setSelection(Number start, Number end)`
-----------------------------------------
+## `setSelection(Number start[, Number end])`
 
 Selects the text within the text input or textarea element between the specified start and end character indices.
 
@@ -75,8 +79,7 @@ To select the word "bar":
     $("#test").setSelection(4, 7);
     
     
-`collapseSelection(Boolean toStart)`
-------------------------------------
+## `collapseSelection(Boolean toStart)`
 
 Collapses the selection to an insertion point (caret) either at the start of the current selection if toStart is true or the end of the current selection otherwise.
 
@@ -88,8 +91,7 @@ To collapse the selection to the start:
 
     $("#test").collapseSelection(true);
 
-`deleteText(Number start, Number end, Boolean moveSelection)`
--------------------------------------------------------------
+## `deleteText(Number start, Number end, Boolean moveSelection)`
 
 Deletes the text within the text input or textarea element between the specified start and end character indices and optionally places the caret at the position where the deleted text had been if moveSelection is true.
 
@@ -101,8 +103,7 @@ To delete the word "foo" from the example and place the caret where "foo" had be
 
     $("#test").deleteText(0, 3, true);
 
-`deleteSelectedText()`
-----------------------
+## `deleteSelectedText()`
 
 Deletes the currently selected text within the text input or textarea element and places the caret at the position where the deleted text had been.
 
@@ -112,8 +113,7 @@ Returns a reference to the original jQuery object for the element.
 
     $("#test").deleteSelectedText();
 
-`extractSelectedText()`
------------------------
+## `extractSelectedText()`
 
 Deletes the currently selected text within the text input or textarea element, places the caret at the position where the deleted text had been and returns the text that was deleted.
 
@@ -122,8 +122,7 @@ Deletes the currently selected text within the text input or textarea element, p
     var extracted = $("#test").extractSelectedText();
     alert(extracted);
 
-`insertText(String text, Number pos[, String selectionBehaviour])`
-------------------------------------------------------------
+## `insertText(String text, Number pos[, String selectionBehaviour])`
 
 Inserts the specified text at the specified character position within the text input or textarea element and optionally updates the selection depending on the value of selectionBehaviour. Possible values are:
 
@@ -141,8 +140,7 @@ To insert the word "baz" between "foo" and "bar" and place the caret immediately
 
     $("#test").insertText(" baz", 3, "collapseToEnd");
 
-`replaceSelectedText(String text[, String selectionBehaviour])`
-----------------------------------
+## `replaceSelectedText(String text[, String selectionBehaviour])`
 
 Replaces the currently selected text in the text input or textarea element with the specified text and optionally updates the selection depending on the value of selectionBehaviour. Possible values are: 
 
@@ -164,8 +162,7 @@ To do the same thing but select "baz" afterwards:
 
     $("#test").replaceSelectedText("baz", "select");
 
-`surroundSelectedText(String textBefore, String textAfter)`
------------------------------------------------------------
+## `surroundSelectedText(String textBefore, String textAfter[, String selectionBehaviour])`
 
 Surrounds the currently selected text in the text input or textarea element with the specified pieces of text and optionally updates the selection depending on the value of `selectionBehaviour`. Possible values are:
 
