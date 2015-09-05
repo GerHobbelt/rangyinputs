@@ -14,6 +14,11 @@ Rangyinputs is a small, cross-browser script for manipulating selections and the
 For manipulating selections and ranges within regular HTML, see Rangyinputs' larger twin project, [Rangy](../Rangy/).
 
 
+Demo
+----
+
+https://rawgit.com/timdown/rangyinputs/master/demo/demo.html
+
 Bower Install
 -------------
 
